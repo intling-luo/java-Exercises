@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    namespace:命名空间要求和实体类同包
+-->
+<mapper namespace="com.xja.mapper.StuMapper">
+    <resultMap id="stuMap" type="com.xja.pojo.Student">
+        <id column="student_id" property="studentId" javaType="java.lang.Integer"/>
+        <result column="student_name" property="studentName" javaType="java.lang.String"/>
+        <result column="student_sex" property="studentSex" javaType="java.lang.String"/>
+        <result column="student_age" property="studentAge" javaType="java.lang.Integer"/>
+        <result column="student_phone" property="studentPhone" javaType="java.lang.Integer"/>
+        <result column="student_address" property="studentAddress" javaType="java.lang.Integer"/>
+    </resultMap>
+    <!--select:执行查询的语句
+        id:语句的id名唯一
+        parameterType:传入参数类型,可省略不写
+        resultType:返回值类型,如果是集合则写元素的类型(类型的全称:包名.类名)
+    -->
+    <select id="selectAll" resultMap="stuMap">
+        select student_id,student_name,student_sex,student_age
+        from student;
+    </select>
+    <select id="selectForSur" resultMap="stuMap">
+        select student_id,student_name,student_sex,student_age
+        from student
+        where student_name like CONCAT( #{studentSur}, '%');
+    </select>
+    <insert id="addStudent" >
+        insert into student(student_name, student_sex, student_age, student_phone, student_address)
+        values (#{studentName},#{studentSex},#{studentAge},#{studentPhone},#{studentAddress})
+    </insert>
+    <update id="updateStuAge">
+        update student set student_age=#{newAge}
+        where student_id = #{studentId}
+    </update>
+    <delete id="deleteForId">
+        delete from student where student_id = #{studentId}
+    </delete>
+</mapper>
